@@ -1,25 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EcoCash Login</title>
+  <title>EcoCash Login</title>
+
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg,#00c853,#1de9b6);
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      margin:0;
+    }
+
+    .box{
+      background:white;
+      padding:30px;
+      border-radius:15px;
+      width:280px;
+      text-align:center;
+      box-shadow:0 5px 20px rgba(0,0,0,0.3);
+    }
+
+    h1{
+      color:#008f5a;
+      font-size:30px;
+    }
+
+    input{
+      width:90%;
+      padding:12px;
+      margin:10px 0;
+      border:1px solid #ccc;
+      border-radius:8px;
+    }
+
+    button{
+      width:100%;
+      padding:12px;
+      background:#00c853;
+      color:white;
+      border:none;
+      border-radius:8px;
+      font-size:16px;
+      cursor:pointer;
+    }
+
+    button:hover{
+      background:#00b248;
+    }
+
+    #message{
+      margin-top:10px;
+      color:red;
+    }
+  </style>
 </head>
+
 <body>
 
-    <h1>Login to EcoCash</h1>
+<div class="box">
 
-    <form>
-        <label>Email</label><br>
-        <input type="email" placeholder="Enter email"><br><br>
+  <h1>Login to EcoCash</h1>
 
-        <label>Password</label><br>
-        <input type="password" placeholder="Enter password"><br><br>
+  <input type="email" id="email" placeholder="Enter email">
 
-        <button type="submit">Login</button>
-    </form>
+  <input type="password" id="password" placeholder="Enter password">
 
-    <p>Don't have an account?
-        <a href="register.html">Register</a>
-    </p>
+  <button onclick="login()">Login</button>
+
+  <p id="message"></p>
+
+</div>
+
+<script>
+
+function login(){
+
+  let email = document.getElementById("email").value;
+
+  let password = document.getElementById("password").value;
+
+  if(email === "admin@ecocash.com" && password === "12345"){
+
+      alert("Login successful!");
+
+      window.location.href = "dashboard.html";
+
+  }
+
+  else{
+
+      document.getElementById("message").innerHTML =
+      "Wrong email or password";
+
+  }
+
+}
+
+</script>
 
 </body>
 </html>
