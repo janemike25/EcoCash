@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EcoCash Dashboard</title>
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#f2f2f2;
+      text-align:center;
+      padding-top:100px;
+    }
+
+    .card{
+      width:300px;
+      margin:auto;
+      background:white;
+      padding:30px;
+      border-radius:15px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    h1{
+      color:#00c853;
+    }
+
+    .balance{
+      font-size:32px;
+      font-weight:bold;
+      margin:20px 0;
+    }
+
+    button{
+      background:#00c853;
+      color:white;
+      border:none;
+      padding:12px 25px;
+      border-radius:8px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>EcoCash Dashboard</h1>
+
+<p>Welcome back!</p>
+
+<div class="balance">
+$1000
+</div>
+
+<button onclick="logout()">Logout</button>
+
+</div>
+
+<script>
+
+function logout(){
+  alert("Logged out!");
+  window.location.href = "login.html";
+}
+
+</script>
+
+</body>
+</html>
