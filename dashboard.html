@@ -53,9 +53,7 @@
 
     <h1>Welcome Jane</h1>
 
-    <h2 id="balance">
-        Balance: $1250
-    </h2>
+    <h2 id="balance"></h2>
 
     <h3>Transfer Money</h3>
 
@@ -72,7 +70,9 @@
     <br>
 
     <button onclick="transfer()">
+
         Transfer
+
     </button>
 
     <hr>
@@ -87,11 +87,15 @@
     <br>
 
     <button onclick="withdrawMoney()">
+
         Withdraw
+
     </button>
 
     <button onclick="logout()">
+
         Logout
+
     </button>
 
     <p id="message"></p>
@@ -106,9 +110,32 @@
 
 <script>
 
-let balance = 1250;
+let balance =
+Number(
+localStorage.getItem("balance")
+) || 1250;
 
-let history = [];
+let history =
+JSON.parse(
+localStorage.getItem("history")
+) || [];
+
+updateBalance();
+displayHistory();
+
+function saveData(){
+
+    localStorage.setItem(
+    "balance",
+    balance
+    );
+
+    localStorage.setItem(
+    "history",
+    JSON.stringify(history)
+    );
+
+}
 
 function transfer(){
 
@@ -121,7 +148,8 @@ function transfer(){
     document.getElementById(
     "amount").value);
 
-    if(recipient === "" || amount <= 0){
+    if(recipient === "" ||
+       amount <= 0){
 
         message(
         "Enter recipient and amount.",
@@ -143,28 +171,43 @@ function transfer(){
 
     balance -= amount;
 
-    updateBalance();
-
-    message(
-    "Transferred $" +
-    amount +
-    " to " +
-    recipient,
-    "green");
-
     history.unshift(
-    "Transferred $" +
-    amount +
-    " to " +
-    recipient);
+
+        "Transferred $" +
+
+        amount +
+
+        " to " +
+
+        recipient
+
+    );
+
+    saveData();
+
+    updateBalance();
 
     displayHistory();
 
-    document.getElementById(
-    "recipient").value = "";
+    message(
+
+    "Transferred $" +
+
+    amount +
+
+    " to " +
+
+    recipient,
+
+    "green"
+
+    );
 
     document.getElementById(
-    "amount").value = "";
+    "recipient").value="";
+
+    document.getElementById(
+    "amount").value="";
 
 }
 
@@ -197,21 +240,32 @@ function withdrawMoney(){
 
     balance -= amount;
 
-    updateBalance();
-
-    message(
-    "You withdrew $" +
-    amount,
-    "green");
-
     history.unshift(
-    "Withdrew $" +
-    amount);
+
+        "Withdrew $" +
+
+        amount
+
+    );
+
+    saveData();
+
+    updateBalance();
 
     displayHistory();
 
+    message(
+
+    "You withdrew $" +
+
+    amount,
+
+    "green"
+
+    );
+
     document.getElementById(
-    "withdrawAmount").value = "";
+    "withdrawAmount").value="";
 
 }
 
@@ -220,13 +274,16 @@ function updateBalance(){
     document.getElementById(
     "balance").innerHTML =
 
-    "Balance: $" + balance;
+    "Balance: $" +
+
+    balance;
 
 }
 
 function displayHistory(){
 
     let list =
+
     document.getElementById(
     "history");
 
