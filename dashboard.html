@@ -3,7 +3,7 @@
 
 <head>
 
-<title>EcoCash Dashboard</title>
+<title>EcoCash</title>
 
 <style>
 
@@ -11,25 +11,63 @@ body{
 
 font-family:Arial,sans-serif;
 background:#e8f5e9;
+margin:0;
+padding:0;
+
+}
+
+.header{
+
+background:#00a651;
+color:white;
+padding:20px;
 text-align:center;
-margin-top:50px;
 
 }
 
 .card{
 
-width:350px;
-margin:auto;
 background:white;
+width:90%;
+max-width:400px;
+margin:20px auto;
 padding:20px;
 border-radius:15px;
 box-shadow:0 0 15px #bdbdbd;
 
 }
 
-h1{
+.balance{
 
-color:#2e7d32;
+font-size:30px;
+font-weight:bold;
+color:#00a651;
+
+}
+
+.grid{
+
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+
+}
+
+button{
+
+padding:15px;
+border:none;
+border-radius:10px;
+background:#00a651;
+color:white;
+font-size:16px;
+cursor:pointer;
+
+}
+
+button:hover{
+
+opacity:0.9;
 
 }
 
@@ -40,18 +78,6 @@ padding:10px;
 margin:10px 0;
 border:1px solid #ccc;
 border-radius:8px;
-
-}
-
-button{
-
-padding:10px 20px;
-margin:5px;
-border:none;
-border-radius:8px;
-background:#2e7d32;
-color:white;
-cursor:pointer;
 
 }
 
@@ -67,54 +93,61 @@ text-align:left;
 
 <body>
 
-<div class="card">
+<div class="header">
 
 <h1 id="welcome"></h1>
 
-<h2 id="balance"></h2>
+<p id="phone"></p>
 
-<hr>
+</div>
 
-<h3>Send Money</h3>
+<div class="card">
 
-<input
-type="text"
-id="recipient"
-placeholder="Recipient Phone Number">
+<p>Wallet Balance</p>
 
-<input
-type="number"
-id="amount"
-placeholder="Amount">
+<div
+class="balance"
+id="balance">
 
-<br>
+$0
 
-<button onclick="sendMoney()">
+</div>
 
-Send
+</div>
 
-</button>
+<div class="card">
 
-<hr>
+<div class="grid">
 
-<h3>Take a Loan</h3>
+<button onclick="showDeposit()">
 
-<p>Maximum Loan: $3000</p>
-
-<input
-type="number"
-id="loanAmount"
-placeholder="Enter amount">
-
-<br>
-
-<button onclick="takeLoan()">
-
-Take Loan
+Deposit
 
 </button>
 
-<hr>
+<button onclick="showWithdraw()">
+
+Withdraw
+
+</button>
+
+<button onclick="showSend()">
+
+Send Money
+
+</button>
+
+<button onclick="showLoan()">
+
+Loan
+
+</button>
+
+<button onclick="window.location.href='profile.html'">
+
+Profile
+
+</button>
 
 <button onclick="logout()">
 
@@ -122,7 +155,23 @@ Logout
 
 </button>
 
-<hr>
+</div>
+
+</div>
+
+<div class="card" id="actions">
+
+<h3>Welcome to EcoCash</h3>
+
+<p>
+
+Choose an action above.
+
+</p>
+
+</div>
+
+<div class="card">
 
 <h3>Transaction History</h3>
 
@@ -133,107 +182,202 @@ Logout
 <script>
 
 let currentUser =
+
 JSON.parse(
+
 localStorage.getItem(
-"currentUser"));
+
+"currentUser"
+
+));
 
 if(!currentUser){
 
 window.location.href=
+
 "login.html";
 
 }
 
-if(currentUser.balance == null){
+if(currentUser.balance==null)
 
-currentUser.balance = 1250;
+currentUser.balance=1250;
 
-}
+if(currentUser.history==null)
 
-if(currentUser.history == null){
+currentUser.history=[];
 
-currentUser.history = [];
+if(currentUser.loan==null)
 
-}
-
-if(currentUser.loan == null){
-
-currentUser.loan = 0;
-
-}
+currentUser.loan=0;
 
 document.getElementById(
-"welcome").innerHTML=
+
+"welcome"
+
+).innerHTML=
 
 "Welcome " +
 
 currentUser.name;
 
 document.getElementById(
-"balance").innerHTML=
 
-"Balance: $" +
+"phone"
+
+).innerHTML=
+
+currentUser.phone;
+
+update();
+
+function update(){
+
+document.getElementById(
+
+"balance"
+
+).innerHTML=
+
+"$"+
 
 currentUser.balance;
 
+localStorage.setItem(
+
+"currentUser",
+
+JSON.stringify(
+
+currentUser)
+
+);
+
 displayHistory();
 
-function sendMoney(){
+}
 
-let recipientPhone =
+function displayHistory(){
+
+let list=
 
 document.getElementById(
-"recipient").value;
 
-let amount =
+"history");
+
+list.innerHTML="";
+
+currentUser.history.forEach(
+
+item=>{
+
+let li=
+
+document.createElement(
+
+"li");
+
+li.innerHTML=item;
+
+list.appendChild(li);
+
+});
+
+}
+
+function showDeposit(){
+
+document.getElementById(
+
+"actions"
+
+).innerHTML=
+
+`
+
+<h3>Deposit</h3>
+
+<input type="number"
+
+id="dep"
+
+placeholder="Amount">
+
+<br>
+
+<button onclick="deposit()">
+
+Deposit
+
+</button>
+
+`;
+
+}
+
+function deposit(){
+
+let a=
 
 Number(
+
 document.getElementById(
-"amount").value);
 
-let users =
+"dep").value);
 
-JSON.parse(
-localStorage.getItem(
-"users")) || [];
+currentUser.balance+=a;
 
-let recipient =
+currentUser.history.push(
 
-users.find(
-
-u =>
-
-u.phone ===
-
-recipientPhone
+"Deposited $"+a
 
 );
 
-if(!recipient){
-
-alert(
-
-"Recipient not found"
-
-);
-
-return;
+update();
 
 }
 
-if(amount<=0){
+function showWithdraw(){
 
-alert(
+document.getElementById(
 
-"Enter valid amount"
+"actions"
 
-);
+).innerHTML=
 
-return;
+`
+
+<h3>Withdraw</h3>
+
+<input type="number"
+
+id="wit"
+
+placeholder="Amount">
+
+<br>
+
+<button onclick="withdrawMoney()">
+
+Withdraw
+
+</button>
+
+`;
 
 }
 
-if(amount>
+function withdrawMoney(){
+
+let a=
+
+Number(
+
+document.getElementById(
+
+"wit").value);
+
+if(a>
 
 currentUser.balance){
 
@@ -247,83 +391,155 @@ return;
 
 }
 
-currentUser.balance -= amount;
-
-recipient.balance += amount;
+currentUser.balance-=a;
 
 currentUser.history.push(
 
-"Sent $" +
-
-amount +
-
-" to " +
-
-recipientPhone
+"Withdrew $"+a
 
 );
 
-recipient.history.push(
+update();
 
-"Received $" +
+}
 
-amount +
+function showSend(){
 
-" from " +
+document.getElementById(
 
-currentUser.phone
+"actions"
+
+).innerHTML=
+
+`
+
+<h3>Send Money</h3>
+
+<input type="text"
+
+id="rec"
+
+placeholder="Phone Number">
+
+<input type="number"
+
+id="amt"
+
+placeholder="Amount">
+
+<br>
+
+<button onclick="sendMoney()">
+
+Send
+
+</button>
+
+`;
+
+}
+
+function sendMoney(){
+
+let phone=
+
+document.getElementById(
+
+"rec").value;
+
+let amount=
+
+Number(
+
+document.getElementById(
+
+"amt").value);
+
+currentUser.balance-=amount;
+
+currentUser.history.push(
+
+"Sent $"+
+
+amount+
+
+" to "+
+
+phone
 
 );
 
-saveUsers(
-users,
-recipient
-);
+update();
 
-alert(
+}
 
-"Money sent successfully!"
+function showLoan(){
 
-);
+document.getElementById(
+
+"actions"
+
+).innerHTML=
+
+`
+
+<h3>Loan</h3>
+
+<p>
+
+Current Loan:
+
+$${currentUser.loan}
+
+</p>
+
+<p>
+
+Maximum Loan:
+
+$3000
+
+</p>
+
+<input type="number"
+
+id="loan"
+
+placeholder="Amount">
+
+<br>
+
+<button onclick="takeLoan()">
+
+Take Loan
+
+</button>
+
+`;
 
 }
 
 function takeLoan(){
 
-let amount =
+let amount=
 
 Number(
 
 document.getElementById(
-"loanAmount").value
 
-);
-
-if(amount<=0){
-
-alert(
-
-"Enter valid amount"
-
-);
-
-return;
-
-}
+"loan").value);
 
 if(
 
-currentUser.loan +
+currentUser.loan+
 
-amount >
+amount>
 
-3000
-
-){
+3000){
 
 alert(
 
-"Loan limit exceeded! Maximum is $3000"
+"Loan limit exceeded"
 
 );
 
@@ -331,139 +547,34 @@ return;
 
 }
 
-currentUser.loan += amount;
+currentUser.loan+=amount;
 
-currentUser.balance += amount;
+currentUser.balance+=amount;
 
 currentUser.history.push(
 
-"Loan received $" +
+"Loan received $"+
 
 amount
 
 );
 
-saveUsers();
+update();
 
-alert(
-
-"Loan approved!"
-
-);
-
-}
-
-function saveUsers(
-users=[],
-recipient=null
-){
-
-let allUsers =
-
-JSON.parse(
-
-localStorage.getItem(
-"users")
-
-) || [];
-
-allUsers = allUsers.map(
-
-user => {
-
-if(
-
-user.phone ===
-
-currentUser.phone
-
-){
-
-return currentUser;
-
-}
-
-if(
-
-recipient &&
-
-user.phone ===
-
-recipient.phone
-
-){
-
-return recipient;
-
-}
-
-return user;
-
-}
-
-);
-
-localStorage.setItem(
-
-"users",
-
-JSON.stringify(
-allUsers)
-
-);
-
-localStorage.setItem(
-
-"currentUser",
-
-JSON.stringify(
-currentUser)
-
-);
-
-document.getElementById(
-"balance").innerHTML=
-
-"Balance: $" +
-
-currentUser.balance;
-
-displayHistory();
-
-}
-
-function displayHistory(){
-
-let list =
-
-document.getElementById(
-"history");
-
-list.innerHTML="";
-
-currentUser.history.forEach(
-
-function(item){
-
-let li =
-
-document.createElement(
-"li");
-
-li.innerHTML=item;
-
-list.appendChild(li);
-
-});
+showLoan();
 
 }
 
 function logout(){
 
 localStorage.removeItem(
-"currentUser");
+
+"currentUser"
+
+);
 
 window.location.href=
+
 "login.html";
 
 }
