@@ -1,255 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>EcoCash Dashboard</title>
-
-    <style>
-        body{
-            font-family: Arial, sans-serif;
-            background:#e8f0e8;
-        }
-
-        .container{
-            width:300px;
-            margin:50px auto;
-            background:white;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 0 10px rgba(0,0,0,0.2);
-            text-align:center;
-        }
-
-        input{
-            width:90%;
-            padding:10px;
-            margin:10px 0;
-        }
-
-        button{
-            background:green;
-            color:white;
-            border:none;
-            padding:10px 20px;
-            border-radius:5px;
-            cursor:pointer;
-        }
-
-        hr{
-            margin:20px 0;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container">
-
 <h1 id="welcome"></h1>
+
+<p>
+Phone Number:
+<b id="phone"></b>
+</p>
 
 <h2>
 Balance:
 <span id="balance">$0</span>
 </h2>
 
-<hr>
-
-<h3>Deposit Money</h3>
-
-<input
-type="number"
-id="depositAmount"
-placeholder="Amount">
-
-<br>
-
-<button onclick="depositMoney()">
-Deposit
-</button>
-
-<hr>
-
-<h3>Transfer Money</h3>
-
-<input
-type="text"
-id="recipient"
-placeholder="Recipient">
-
-<input
-type="number"
-id="transferAmount"
-placeholder="Amount">
-
-<br>
-
-<button onclick="transferMoney()">
-Transfer
-</button>
-
-<hr>
-
-<h3>Withdraw Money</h3>
-
-<input
-type="number"
-id="withdrawAmount"
-placeholder="Amount">
-
-<br>
-
-<button onclick="withdrawMoney()">
-Withdraw
-</button>
-
-<hr>
-
-<button onclick="logout()">
-Logout
-</button>
-
-<hr>
-
-<h3>Transaction History</h3>
-
-<div id="history"></div>
-
-</div>
-
 <script>
 
 let currentUser =
-JSON.parse(localStorage.getItem("currentUser"));
-
-if(!currentUser){
-
-window.location.href="login.html";
-
-}
+JSON.parse(
+localStorage.getItem("currentUser")
+);
 
 document.getElementById("welcome").innerHTML =
 "Welcome " + currentUser.name;
 
-document.getElementById("balance").innerHTML =
-"$" + currentUser.balance;
-
-let history =
-JSON.parse(localStorage.getItem("history")) || [];
-
-showHistory();
-
-function depositMoney(){
-
-let amount =
-parseFloat(
-document.getElementById("depositAmount").value
-);
-
-if(amount>0){
-
-currentUser.balance += amount;
-
-history.push(
-"Deposited $" + amount
-);
-
-save();
-
-alert("Deposit successful");
-
-}
-
-}
-
-function transferMoney(){
-
-let recipient =
-document.getElementById("recipient").value;
-
-let amount =
-parseFloat(
-document.getElementById("transferAmount").value
-);
-
-if(amount>0 &&
-amount<=currentUser.balance){
-
-currentUser.balance -= amount;
-
-history.push(
-"Transferred $" +
-amount +
-" to " +
-recipient
-);
-
-save();
-
-alert("Transfer successful");
-
-}
-
-}
-
-function withdrawMoney(){
-
-let amount =
-parseFloat(
-document.getElementById("withdrawAmount").value
-);
-
-if(amount>0 &&
-amount<=currentUser.balance){
-
-currentUser.balance -= amount;
-
-history.push(
-"Withdrew $" + amount
-);
-
-save();
-
-alert("Withdrawal successful");
-
-}
-
-}
-
-function save(){
-
-localStorage.setItem(
-"currentUser",
-JSON.stringify(currentUser)
-);
-
-localStorage.setItem(
-"history",
-JSON.stringify(history)
-);
+document.getElementById("phone").innerHTML =
+currentUser.phone;
 
 document.getElementById("balance").innerHTML =
 "$" + currentUser.balance;
-
-showHistory();
-
-}
-
-function showHistory(){
-
-document.getElementById("history").innerHTML =
-history.join("<br>");
-
-}
-
-function logout(){
-
-localStorage.removeItem("currentUser");
-
-window.location.href =
-"login.html";
-
-}
 
 </script>
-
-</body>
-</html>
