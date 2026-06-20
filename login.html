@@ -1,86 +1,90 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
     <title>EcoCash Login</title>
 
     <style>
-        body {
+
+        body{
+
             font-family: Arial, sans-serif;
-            background: #00d26a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background:#e8f5e9;
+            text-align:center;
+            margin-top:100px;
+
         }
 
-        .box {
-            background: white;
-            padding: 30px;
-            width: 300px;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-            text-align: center;
+        .card{
+
+            width:320px;
+            margin:auto;
+            background:white;
+            padding:20px;
+            border-radius:15px;
+            box-shadow:0 0 15px #bdbdbd;
+
         }
 
-        h1 {
-            color: #008f4c;
+        h1{
+
+            color:#2e7d32;
+
         }
 
-        input {
-            width: 90%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        input{
+
+            width:90%;
+            padding:10px;
+            margin:10px 0;
+            border:1px solid #ccc;
+            border-radius:8px;
+
         }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #00b84f;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        button{
+
+            padding:10px 20px;
+            border:none;
+            border-radius:8px;
+            background:#2e7d32;
+            color:white;
+            cursor:pointer;
+
         }
 
-        button:hover {
-            background: #009944;
+        #message{
+
+            color:red;
+
         }
 
-        p {
-            margin-top: 15px;
-        }
-
-        a {
-            color: #008f4c;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        #message {
-            color: red;
-            margin-top: 10px;
-        }
     </style>
+
 </head>
 
 <body>
 
-<div class="box">
+<div class="card">
 
-    <h1>Login to EcoCash</h1>
+    <h1>EcoCash Login</h1>
 
-    <input type="text" id="phone" placeholder="Enter phone number">
+    <input
+    type="text"
+    id="phone"
+    placeholder="Phone Number">
 
-    <input type="password" id="pin" placeholder="Enter PIN">
+    <input
+    type="password"
+    id="pin"
+    placeholder="4-digit PIN">
 
-    <button onclick="login()">Login</button>
+    <button onclick="login()">
 
-    <p>
-        Don't have an account?
-        <a href="register.html">Register</a>
-    </p>
+        Login
+
+    </button>
 
     <p id="message"></p>
 
@@ -88,34 +92,105 @@
 
 <script>
 
-function login() {
+function login(){
 
-    const phone = document.getElementById("phone").value;
+    let phone =
+    document.getElementById(
+    "phone").value;
 
-    const pin = document.getElementById("pin").value;
+    let pin =
+    document.getElementById(
+    "pin").value;
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    let users =
+    JSON.parse(
+    localStorage.getItem(
+    "users")
+    ) || [];
 
-    const user = users.find(
-        u => u.phone === phone && u.pin === pin
+    let user =
+    users.find(
+
+    u =>
+
+    u.phone === phone &&
+
+    u.pin === pin
+
     );
 
     if(user){
 
-        localStorage.setItem(
-            "currentUser",
-            JSON.stringify(user)
+        let otp =
+
+        Math.floor(
+
+        100000 +
+
+        Math.random() *
+
+        900000
+
         );
 
-        window.location.href = "dashboard.html";
+        alert(
+
+        "Demo OTP: " +
+
+        otp
+
+        );
+
+        let enteredOtp =
+
+        prompt(
+
+        "Enter OTP"
+
+        );
+
+        if(
+
+        enteredOtp == otp
+
+        ){
+
+            localStorage.setItem(
+
+            "currentUser",
+
+            JSON.stringify(user)
+
+            );
+
+            window.location.href =
+
+            "dashboard.html";
+
+        }
+
+        else{
+
+            document.getElementById(
+
+            "message"
+
+            ).innerHTML =
+
+            "Invalid OTP";
+
+        }
 
     }
 
     else{
 
         document.getElementById(
-            "message"
+
+        "message"
+
         ).innerHTML =
+
         "Wrong phone number or PIN";
 
     }
@@ -125,4 +200,5 @@ function login() {
 </script>
 
 </body>
+
 </html>
