@@ -8,30 +8,36 @@
     <style>
 
         body{
-
             font-family: Arial, sans-serif;
             background:#f5f5f5;
             text-align:center;
-            margin-top:100px;
-
+            margin-top:80px;
         }
 
         .card{
-
-            width:320px;
+            width:350px;
             margin:auto;
             background:white;
             padding:20px;
             border-radius:10px;
             box-shadow:0 0 10px #ccc;
+        }
 
+        input{
+            width:90%;
+            padding:10px;
+            margin:10px 0;
         }
 
         button{
-
             padding:10px 20px;
             cursor:pointer;
+            margin:5px;
+        }
 
+        #message{
+            color:green;
+            margin-top:10px;
         }
 
     </style>
@@ -42,50 +48,109 @@
 
 <div class="card">
 
-    <h1 id="welcome"></h1>
+    <h1>Welcome Jane</h1>
 
-    <p>
-        <b>Balance:</b> $1,250
-    </p>
+    <h2 id="balance">Balance: $1250</h2>
 
-    <p>
-        <b>Transactions:</b> 15
-    </p>
+    <h3>Transfer Money</h3>
+
+    <input
+        type="text"
+        id="recipient"
+        placeholder="Recipient">
+
+    <input
+        type="number"
+        id="amount"
+        placeholder="Amount">
+
+    <br>
+
+    <button onclick="transfer()">
+        Transfer
+    </button>
 
     <button onclick="logout()">
-
         Logout
-
     </button>
+
+    <p id="message"></p>
 
 </div>
 
 <script>
 
-let user = JSON.parse(
-    localStorage.getItem("currentUser")
-);
+let balance = 1250;
 
-if(user){
+function transfer(){
 
-    document.getElementById("welcome")
-    .innerHTML =
-    "Welcome " + user.name;
+    let recipient =
+    document.getElementById(
+    "recipient").value;
 
-}
+    let amount =
+    Number(
+    document.getElementById(
+    "amount").value);
 
-else{
+    if(recipient === "" || amount <= 0){
 
-    window.location.href =
-    "login.html";
+        document.getElementById(
+        "message").style.color =
+        "red";
+
+        document.getElementById(
+        "message").innerHTML =
+        "Enter recipient and amount.";
+
+        return;
+
+    }
+
+    if(amount > balance){
+
+        document.getElementById(
+        "message").style.color =
+        "red";
+
+        document.getElementById(
+        "message").innerHTML =
+        "Insufficient balance.";
+
+        return;
+
+    }
+
+    balance = balance - amount;
+
+    document.getElementById(
+    "balance").innerHTML =
+    "Balance: $" + balance;
+
+    document.getElementById(
+    "message").style.color =
+    "green";
+
+    document.getElementById(
+    "message").innerHTML =
+
+    "Transferred $" +
+    amount +
+    " to " +
+    recipient;
+
+    document.getElementById(
+    "recipient").value = "";
+
+    document.getElementById(
+    "amount").value = "";
 
 }
 
 function logout(){
 
     localStorage.removeItem(
-        "currentUser"
-    );
+    "currentUser");
 
     window.location.href =
     "login.html";
