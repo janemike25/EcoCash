@@ -3,44 +3,80 @@
 
 <head>
 
-    <title>EcoCash Dashboard</title>
+    <title>Wallet Dashboard</title>
 
     <style>
 
         body{
+
             font-family: Arial, sans-serif;
-            background:#f5f5f5;
+            background:#e8f5e9;
             text-align:center;
-            margin-top:60px;
+            margin-top:40px;
+
         }
 
         .card{
-            width:350px;
+
+            width:360px;
             margin:auto;
             background:white;
             padding:20px;
-            border-radius:10px;
-            box-shadow:0 0 10px #ccc;
+            border-radius:15px;
+            box-shadow:0 0 15px #bdbdbd;
+
+        }
+
+        h1{
+
+            color:#2e7d32;
+
+        }
+
+        h2{
+
+            color:#1b5e20;
+
         }
 
         input{
+
             width:90%;
             padding:10px;
             margin:10px 0;
+            border:1px solid #ccc;
+            border-radius:8px;
+
         }
 
         button{
+
             padding:10px 20px;
             margin:5px;
+            border:none;
+            border-radius:8px;
+            background:#2e7d32;
+            color:white;
             cursor:pointer;
+
         }
 
-        #message{
-            margin-top:10px;
+        button:hover{
+
+            opacity:0.9;
+
         }
 
         ul{
+
             text-align:left;
+
+        }
+
+        #message{
+
+            margin-top:10px;
+
         }
 
     </style>
@@ -51,7 +87,7 @@
 
 <div class="card">
 
-    <h1>Welcome Jane</h1>
+    <h1 id="welcome"></h1>
 
     <h2 id="balance"></h2>
 
@@ -60,9 +96,9 @@
     <h3>Deposit Money</h3>
 
     <input
-        type="number"
-        id="depositAmount"
-        placeholder="Amount to deposit">
+    type="number"
+    id="depositAmount"
+    placeholder="Amount">
 
     <br>
 
@@ -77,14 +113,14 @@
     <h3>Transfer Money</h3>
 
     <input
-        type="text"
-        id="recipient"
-        placeholder="Recipient">
+    type="text"
+    id="recipient"
+    placeholder="Recipient">
 
     <input
-        type="number"
-        id="amount"
-        placeholder="Amount">
+    type="number"
+    id="amount"
+    placeholder="Amount">
 
     <br>
 
@@ -99,9 +135,9 @@
     <h3>Withdraw Money</h3>
 
     <input
-        type="number"
-        id="withdrawAmount"
-        placeholder="Amount to withdraw">
+    type="number"
+    id="withdrawAmount"
+    placeholder="Amount">
 
     <br>
 
@@ -110,6 +146,8 @@
         Withdraw
 
     </button>
+
+    <hr>
 
     <button onclick="logout()">
 
@@ -129,264 +167,286 @@
 
 <script>
 
+let user = JSON.parse(
+localStorage.getItem(
+"currentUser"));
+
+if(user){
+
+document.getElementById(
+"welcome").innerHTML =
+
+"Welcome " + user.name;
+
+}
+
+else{
+
+window.location.href =
+"login.html";
+
+}
+
 let balance =
 Number(
-localStorage.getItem("balance")
-) || 1250;
+localStorage.getItem(
+"balance")) || 1250;
 
 let history =
 JSON.parse(
-localStorage.getItem("history")
-) || [];
+localStorage.getItem(
+"history")) || [];
 
 updateBalance();
+
 displayHistory();
 
 function saveData(){
 
-    localStorage.setItem(
-    "balance",
-    balance
-    );
+localStorage.setItem(
+"balance",
+balance);
 
-    localStorage.setItem(
-    "history",
-    JSON.stringify(history)
-    );
+localStorage.setItem(
+"history",
+JSON.stringify(history));
 
 }
 
 function depositMoney(){
 
-    let amount =
-    Number(
-    document.getElementById(
-    "depositAmount").value);
+let amount =
+Number(
+document.getElementById(
+"depositAmount").value);
 
-    if(amount <= 0){
+if(amount<=0){
 
-        message(
-        "Enter a valid amount.",
-        "red");
+message(
+"Enter valid amount",
+"red");
 
-        return;
+return;
 
-    }
+}
 
-    balance += amount;
+balance += amount;
 
-    history.unshift(
+history.unshift(
 
-        "Deposited $" +
+"Deposited $" +
 
-        amount
+amount
 
-    );
+);
 
-    saveData();
+saveData();
 
-    updateBalance();
+updateBalance();
 
-    displayHistory();
+displayHistory();
 
-    message(
+message(
 
-    "Deposited $" +
+"Deposited $" +
 
-    amount,
+amount,
 
-    "green"
+"green"
 
-    );
+);
 
-    document.getElementById(
-    "depositAmount").value="";
+document.getElementById(
+"depositAmount").value="";
 
 }
 
 function transfer(){
 
-    let recipient =
-    document.getElementById(
-    "recipient").value;
+let recipient =
+document.getElementById(
+"recipient").value;
 
-    let amount =
-    Number(
-    document.getElementById(
-    "amount").value);
+let amount =
+Number(
+document.getElementById(
+"amount").value);
 
-    if(recipient === "" ||
-       amount <= 0){
+if(recipient=="" ||
+amount<=0){
 
-        message(
-        "Enter recipient and amount.",
-        "red");
+message(
+"Enter recipient and amount",
+"red");
 
-        return;
+return;
 
-    }
+}
 
-    if(amount > balance){
+if(amount>balance){
 
-        message(
-        "Insufficient balance.",
-        "red");
+message(
+"Insufficient balance",
+"red");
 
-        return;
+return;
 
-    }
+}
 
-    balance -= amount;
+balance -= amount;
 
-    history.unshift(
+history.unshift(
 
-        "Transferred $" +
+"Transferred $" +
 
-        amount +
+amount +
 
-        " to " +
+" to " +
 
-        recipient
+recipient
 
-    );
+);
 
-    saveData();
+saveData();
 
-    updateBalance();
+updateBalance();
 
-    displayHistory();
+displayHistory();
 
-    message(
+message(
 
-    "Transferred $" +
+"Transferred $" +
 
-    amount +
+amount +
 
-    " to " +
+" to " +
 
-    recipient,
+recipient,
 
-    "green"
+"green"
 
-    );
+);
 
-    document.getElementById(
-    "recipient").value="";
+document.getElementById(
+"recipient").value="";
 
-    document.getElementById(
-    "amount").value="";
+document.getElementById(
+"amount").value="";
 
 }
 
 function withdrawMoney(){
 
-    let amount =
-    Number(
-    document.getElementById(
-    "withdrawAmount").value);
+let amount =
+Number(
+document.getElementById(
+"withdrawAmount").value);
 
-    if(amount <= 0){
+if(amount<=0){
 
-        message(
-        "Enter a valid amount.",
-        "red");
+message(
+"Enter valid amount",
+"red");
 
-        return;
+return;
 
-    }
+}
 
-    if(amount > balance){
+if(amount>balance){
 
-        message(
-        "Insufficient balance.",
-        "red");
+message(
+"Insufficient balance",
+"red");
 
-        return;
+return;
 
-    }
+}
 
-    balance -= amount;
+balance -= amount;
 
-    history.unshift(
+history.unshift(
 
-        "Withdrew $" +
+"Withdrew $" +
 
-        amount
+amount
 
-    );
+);
 
-    saveData();
+saveData();
 
-    updateBalance();
+updateBalance();
 
-    displayHistory();
+displayHistory();
 
-    message(
+message(
 
-    "You withdrew $" +
+"Withdrew $" +
 
-    amount,
+amount,
 
-    "green"
+"green"
 
-    );
+);
 
-    document.getElementById(
-    "withdrawAmount").value="";
+document.getElementById(
+"withdrawAmount").value="";
 
 }
 
 function updateBalance(){
 
-    document.getElementById(
-    "balance").innerHTML =
+document.getElementById(
+"balance").innerHTML =
 
-    "Balance: $" +
+"Balance: $" +
 
-    balance;
+balance;
 
 }
 
 function displayHistory(){
 
-    let list =
-    document.getElementById(
-    "history");
+let list =
+document.getElementById(
+"history");
 
-    list.innerHTML = "";
+list.innerHTML="";
 
-    history.forEach(function(item){
+history.forEach(
+function(item){
 
-        let li =
-        document.createElement("li");
+let li =
+document.createElement(
+"li");
 
-        li.innerHTML = item;
+li.innerHTML=item;
 
-        list.appendChild(li);
+list.appendChild(li);
 
-    });
+});
 
 }
 
-function message(text,color){
+function message(
+text,color){
 
-    document.getElementById(
-    "message").style.color =
-    color;
+document.getElementById(
+"message").style.color =
+color;
 
-    document.getElementById(
-    "message").innerHTML =
-    text;
+document.getElementById(
+"message").innerHTML =
+text;
 
 }
 
 function logout(){
 
-    localStorage.removeItem(
-    "currentUser");
+localStorage.removeItem(
+"currentUser");
 
-    window.location.href =
-    "login.html";
+window.location.href =
+"login.html";
 
 }
 
