@@ -1,73 +1,97 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
-    <title>EcoCash Login</title>
+    <title>EcoCash Login</title><style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #00b09b, #96c93d);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
 
-    <style>
-        body{
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg,#00b09b,#96c93d);
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            margin:0;
-        }
+    .box {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        width: 300px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
 
-        .box{
-            background:white;
-            padding:30px;
-            border-radius:15px;
-            width:280px;
-            text-align:center;
-            box-shadow:0 5px 20px rgba(0,0,0,0.2);
-        }
+    input {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
 
-        input{
-            width:90%;
-            padding:10px;
-            margin:10px 0;
-            border:1px solid #ccc;
-            border-radius:8px;
-        }
+    button {
+        width: 100%;
+        padding: 10px;
+        background: #00b09b;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
 
-        button{
-            width:100%;
-            padding:10px;
-            background:#00b09b;
-            color:white;
-            border:none;
-            border-radius:8px;
-            cursor:pointer;
-        }
+    button:hover {
+        opacity: 0.9;
+    }
 
-        #message{
-            color:red;
-            margin-top:10px;
-        }
-    </style>
-</head>
+    #message {
+        color: red;
+        margin-top: 10px;
+    }
 
-<body>
+    a {
+        text-decoration: none;
+        color: #00b09b;
+        font-weight: bold;
+    }
+</style>
 
-    <div class="box">
-        <h2>EcoCash Login</h2>
+</head><body><div class="box">
 
-        <input type="email" id="email" placeholder="Enter email">
+    <h2>Login to EcoCash</h2>
 
-        <input type="password" id="password" placeholder="Enter password">
+    <input
+        type="email"
+        id="email"
+        placeholder="admin@ecocash.com"
+    >
 
-        <button onclick="login()">Login</button>
+    <input
+        type="password"
+        id="password"
+        placeholder="Enter password"
+    >
 
-        <p id="message"></p>
-    </div>
+    <button type="button" onclick="login()">
+        Login
+    </button>
 
-    <script>
+    <p id="message"></p>
+
+    <p>
+        Don't have an account?
+        <a href="register.html">Register</a>
+    </p>
+
+</div>
+
+<script>
 
     function login() {
 
-        let email = document.getElementById("email").value;
-        let password = document.getElementById("password").value;
+        let email =
+            document.getElementById("email").value;
+
+        let password =
+            document.getElementById("password").value;
 
         if (
             email === "admin@ecocash.com" &&
@@ -86,7 +110,7 @@
         }
     }
 
-    </script>
+</script>
 
 </body>
 </html>
