@@ -1,20 +1,92 @@
-<script>
-function login() {
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EcoCash Login</title>
 
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg,#00b09b,#96c93d);
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin:0;
+        }
 
-    if (email === "admin@ecocash.com" && password === "12345") {
+        .box{
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            width:280px;
+            text-align:center;
+            box-shadow:0 5px 20px rgba(0,0,0,0.2);
+        }
 
-        alert("Login successful!");
+        input{
+            width:90%;
+            padding:10px;
+            margin:10px 0;
+            border:1px solid #ccc;
+            border-radius:8px;
+        }
 
-        window.location.href = "dashboard.html";
+        button{
+            width:100%;
+            padding:10px;
+            background:#00b09b;
+            color:white;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+        }
 
-    } else {
+        #message{
+            color:red;
+            margin-top:10px;
+        }
+    </style>
+</head>
 
-        document.getElementById("message").innerHTML =
-        "Wrong email or password";
+<body>
 
+    <div class="box">
+        <h2>EcoCash Login</h2>
+
+        <input type="email" id="email" placeholder="Enter email">
+
+        <input type="password" id="password" placeholder="Enter password">
+
+        <button onclick="login()">Login</button>
+
+        <p id="message"></p>
+    </div>
+
+    <script>
+
+    function login() {
+
+        let email = document.getElementById("email").value;
+        let password = document.getElementById("password").value;
+
+        if (
+            email === "admin@ecocash.com" &&
+            password === "123456"
+        ) {
+
+            alert("Login successful!");
+
+            window.location.href = "dashboard.html";
+
+        } else {
+
+            document.getElementById("message").innerText =
+                "Wrong email or password";
+
+        }
     }
-}
-</script>
+
+    </script>
+
+</body>
+</html>
