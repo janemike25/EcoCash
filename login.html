@@ -1,124 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>EcoCash Login</title>
-
-    <style>
-        body{
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg,#00b09b,#00ff99);
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            margin:0;
-        }
-
-        .box{
-            background:white;
-            padding:30px;
-            border-radius:15px;
-            width:280px;
-            text-align:center;
-            box-shadow:0 5px 20px rgba(0,0,0,0.3);
-        }
-
-        h2{
-            color:#00b09b;
-        }
-
-        input{
-            width:90%;
-            padding:10px;
-            margin:10px 0;
-            border:1px solid #ccc;
-            border-radius:8px;
-        }
-
-        button{
-            width:100%;
-            padding:10px;
-            background:#00b09b;
-            color:white;
-            border:none;
-            border-radius:8px;
-            cursor:pointer;
-        }
-
-        button:hover{
-            opacity:0.9;
-        }
-
-        #message{
-            color:red;
-            margin-top:10px;
-        }
-
-        a{
-            text-decoration:none;
-            color:#00b09b;
-            font-weight:bold;
-        }
-    </style>
-</head>
-
 <body>
 
-    <div class="box">
+<h1>EcoCash Login Test</h1>
 
-        <h2>Login to EcoCash</h2>
+<button onclick="test()">
+Login
+</button>
 
-        <input
-            type="email"
-            id="email"
-            placeholder="Enter email"
-        >
-
-        <input
-            type="password"
-            id="password"
-            placeholder="Enter password"
-        >
-
-        <button type="button" onclick="login()">
-            Login
-        </button>
-
-        <p id="message"></p>
-
-        <p>
-            Don't have an account?
-            <a href="register.html">Register</a>
-        </p>
-
-    </div>
-
-    <script>
-
-        function login() {
-
-            let email = document.getElementById("email").value;
-            let password = document.getElementById("password").value;
-
-            if (
-                email === "admin@ecocash.com" &&
-                password === "123456"
-            ) {
-
-                alert("Login successful!");
-
-                window.location.href = "dashboard.html";
-
-            } else {
-
-                document.getElementById("message").innerText =
-                    "Wrong email or password";
-
-            }
-
-        }
-
-    </script>
+<script>
+function test() {
+    alert("It works!");
+}
+</script>
 
 </body>
 </html>
