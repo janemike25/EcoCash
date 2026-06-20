@@ -55,6 +55,25 @@
 
     <h2 id="balance"></h2>
 
+    <hr>
+
+    <h3>Deposit Money</h3>
+
+    <input
+        type="number"
+        id="depositAmount"
+        placeholder="Amount to deposit">
+
+    <br>
+
+    <button onclick="depositMoney()">
+
+        Deposit
+
+    </button>
+
+    <hr>
+
     <h3>Transfer Money</h3>
 
     <input
@@ -134,6 +153,54 @@ function saveData(){
     "history",
     JSON.stringify(history)
     );
+
+}
+
+function depositMoney(){
+
+    let amount =
+    Number(
+    document.getElementById(
+    "depositAmount").value);
+
+    if(amount <= 0){
+
+        message(
+        "Enter a valid amount.",
+        "red");
+
+        return;
+
+    }
+
+    balance += amount;
+
+    history.unshift(
+
+        "Deposited $" +
+
+        amount
+
+    );
+
+    saveData();
+
+    updateBalance();
+
+    displayHistory();
+
+    message(
+
+    "Deposited $" +
+
+    amount,
+
+    "green"
+
+    );
+
+    document.getElementById(
+    "depositAmount").value="";
 
 }
 
@@ -283,7 +350,6 @@ function updateBalance(){
 function displayHistory(){
 
     let list =
-
     document.getElementById(
     "history");
 
