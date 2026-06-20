@@ -72,15 +72,26 @@
     <br>
 
     <button onclick="transfer()">
-
         Transfer
+    </button>
 
+    <hr>
+
+    <h3>Withdraw Money</h3>
+
+    <input
+        type="number"
+        id="withdrawAmount"
+        placeholder="Amount to withdraw">
+
+    <br>
+
+    <button onclick="withdrawMoney()">
+        Withdraw
     </button>
 
     <button onclick="logout()">
-
         Logout
-
     </button>
 
     <p id="message"></p>
@@ -89,9 +100,7 @@
 
     <h3>Transaction History</h3>
 
-    <ul id="history">
-
-    </ul>
+    <ul id="history"></ul>
 
 </div>
 
@@ -114,13 +123,9 @@ function transfer(){
 
     if(recipient === "" || amount <= 0){
 
-        document.getElementById(
-        "message").style.color =
-        "red";
-
-        document.getElementById(
-        "message").innerHTML =
-        "Enter recipient and amount.";
+        message(
+        "Enter recipient and amount.",
+        "red");
 
         return;
 
@@ -128,41 +133,30 @@ function transfer(){
 
     if(amount > balance){
 
-        document.getElementById(
-        "message").style.color =
-        "red";
-
-        document.getElementById(
-        "message").innerHTML =
-        "Insufficient balance.";
+        message(
+        "Insufficient balance.",
+        "red");
 
         return;
 
     }
 
-    balance = balance - amount;
+    balance -= amount;
 
-    document.getElementById(
-    "balance").innerHTML =
-    "Balance: $" + balance;
+    updateBalance();
 
-    document.getElementById(
-    "message").style.color =
-    "green";
-
-    document.getElementById(
-    "message").innerHTML =
+    message(
     "Transferred $" +
     amount +
     " to " +
-    recipient;
+    recipient,
+    "green");
 
     history.unshift(
-        "Transferred $" +
-        amount +
-        " to " +
-        recipient
-    );
+    "Transferred $" +
+    amount +
+    " to " +
+    recipient);
 
     displayHistory();
 
@@ -171,6 +165,62 @@ function transfer(){
 
     document.getElementById(
     "amount").value = "";
+
+}
+
+function withdrawMoney(){
+
+    let amount =
+    Number(
+    document.getElementById(
+    "withdrawAmount").value);
+
+    if(amount <= 0){
+
+        message(
+        "Enter a valid amount.",
+        "red");
+
+        return;
+
+    }
+
+    if(amount > balance){
+
+        message(
+        "Insufficient balance.",
+        "red");
+
+        return;
+
+    }
+
+    balance -= amount;
+
+    updateBalance();
+
+    message(
+    "You withdrew $" +
+    amount,
+    "green");
+
+    history.unshift(
+    "Withdrew $" +
+    amount);
+
+    displayHistory();
+
+    document.getElementById(
+    "withdrawAmount").value = "";
+
+}
+
+function updateBalance(){
+
+    document.getElementById(
+    "balance").innerHTML =
+
+    "Balance: $" + balance;
 
 }
 
@@ -185,14 +235,25 @@ function displayHistory(){
     history.forEach(function(item){
 
         let li =
-        document.createElement(
-        "li");
+        document.createElement("li");
 
         li.innerHTML = item;
 
         list.appendChild(li);
 
     });
+
+}
+
+function message(text,color){
+
+    document.getElementById(
+    "message").style.color =
+    color;
+
+    document.getElementById(
+    "message").innerHTML =
+    text;
 
 }
 
